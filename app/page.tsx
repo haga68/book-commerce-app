@@ -16,7 +16,7 @@ export default async function Home() {
   //Sessionを呼び出す時も、useSessionの形で呼び出すのではなく
   //サーバーサイドでSessionを取り出す関数を使って、userを取り出す
 
-  let purchaseBookIds: string[];
+  let purchaseBookIds: string[] = [];
 
   if (user) {
     const response = await fetch(
@@ -46,6 +46,7 @@ export default async function Home() {
             book={book}
             isPurchased
             // isPurchased={purchaseBookIds.includes(book.id)}
+            user={user}
           />
         ))}
       </main>

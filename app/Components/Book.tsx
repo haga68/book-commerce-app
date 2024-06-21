@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { BookType } from "../types/types";
+import { BookType, User } from "../types/types";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -10,18 +10,17 @@ import { useRouter } from "next/navigation";
 type BookProps = {
   book: BookType;
   isPurchased: boolean;
+  user: User;
 };
 
 // eslint-disable-next-line react/display-name
-const Book = ({ book, isPurchased }: BookProps) => {
+const Book = ({ book, isPurchased, user }: BookProps) => {
 
   const [showModal, setShowModal] = useState(false);
   //useStateを使用するときは、クライアントコンポーネントにする必要があるので、 use client　をつける
-  const { data: session } = useSession();
-  const user:any = session?.user;
+  // const { data: session } = useSession();
+  // const user:any = session?.user;
   const router = useRouter();
-  // console.log(user?.id);
-  // console.log(book.id);
 
   const startCheckout = async () =>{
     try {
@@ -47,10 +46,10 @@ const Book = ({ book, isPurchased }: BookProps) => {
   }
 
   const handlePurchaseClick = () => {
-    if(isPurchased){
-      alert("その商品は購入済みです。");
+    if(!isPurchased){
+      setShowModal(true); //購入してない時だけ、モーダルを出す      
     } else {
-    setShowModal(true); //購入してない時だけ、モーダルを出す   
+      alert("その商品は購入済みです。");
     }
   };
 
